@@ -1,9 +1,7 @@
 <template>
-  <swiper :slides-per-view="1" autoplay loop :pagination="{ clickable: true }" class="swiper" v-if="banners.length">
+  <swiper :slides-per-view="1" :autoplay="{ delay: 3000, disableOnInteraction: false }" loop :pagination="{ clickable: true }" class="swiper swiper-container" v-if="banners.length">
     <swiper-slide v-for="item in banners" class="swiper-item">
-      <a :href="item.link">
-        <img :src="item.image" alt="" />
-      </a>
+      <a :href="item.link"> <img :src="item.image" alt="" @load="imgLoad" /> </a>
     </swiper-slide>
   </swiper>
 </template>
@@ -24,6 +22,19 @@ export default {
       defualt() {
         return []
       },
+    },
+  },
+  data() {
+    return {
+      isLoad: false,
+    }
+  },
+  methods: {
+    imgLoad() {
+      if (!this.isLoad) {
+        this.$emit('swiperImgLoad')
+        this.isLoad = true
+      }
     },
   },
 }
